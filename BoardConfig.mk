@@ -47,14 +47,21 @@ COMMON_GLOBAL_CPPFLAGS += -DNO_SECURE_DISCARD
 
 # Kernel
 BOARD_CUSTOM_BOOTIMG_MK := $(CANCRO_PATH)/mkbootimg.mk
-BOARD_KERNEL_CMDLINE := console=none vmalloc=340M androidboot.hardware=qcom user_debug=31 msm_rtb.filter=0x37 ehci-hcd.park=3
+BOARD_KERNEL_CMDLINE := console=none vmalloc=340M androidboot.hardware=qcom user_debug=31 msm_rtb.filter=0x37 ehci-hcd.park=3 androidboot.selinux=permissive
 BOARD_KERNEL_SEPARATED_DT := true
 BOARD_KERNEL_BASE        := 0x00000000
 BOARD_KERNEL_PAGESIZE    := 2048
 BOARD_MKBOOTIMG_ARGS := --ramdisk_offset 0x02000000 --tags_offset 0x01E00000
 TARGET_KERNEL_SOURCE := kernel/xiaomi/cancro
 TARGET_KERNEL_ARCH := arm
-TARGET_KERNEL_CONFIG := cyanogen_cancro_defconfig
+TARGET_KERNEL_CONFIG := cancro_user_defconfig
+
+# Kernel Toolchain
+KERNEL_TOOLCHAIN := $(ANDROID_BUILD_TOP)/prebuilts/gcc/$(HOST_OS)-x86/arm/arm-eabi-4.9/bin
+KERNEL_TOOLCHAIN_PREFIX := arm-eabi-
+
+# Rom Toolchain
+TARGET_GCC_VERSION_EXP := 4.9
 
 # Vendor Init
 TARGET_UNIFIED_DEVICE := true
@@ -178,6 +185,9 @@ BOARD_ANT_WIRELESS_DEVICE := "vfs-prerelease"
 
 # Include an expanded selection of fonts
 EXTENDED_FONT_FOOTPRINT := true
+
+# Consumer IR
+TARGET_PROVIDES_CONSUMERIR_HAL := true
 
 # Simple time service client
 BOARD_USES_QC_TIME_SERVICES := true
